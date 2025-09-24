@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERP Management</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(90deg, #9333ea, #ec4899, #f97316);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      background: linear-gradient(90deg, #9333ea, #ec4899, #f97316);
+      color: white;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    /* Blinking Admission Query button */
+    .admission-query {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: bold;
+      padding: 5px 15px;
+      font-size: 14px;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      animation: blink 2s infinite;
+      z-index: 1000;
+      text-align: center;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    /* Login form */
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-bottom: 1rem;
+      color: #4a90e2;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .login-container button {
+      margin-top: 1rem;
+      background: #4a90e2;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+    .login-container button:hover { background: #357ab8; }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+      position: relative;
+    }
+    @keyframes fadeIn { from {opacity:0; transform:scale(0.9);} to {opacity:1; transform:scale(1);} }
+    .modal-content h2 { margin-bottom: 1rem; color: #4a90e2; }
+    .modal-content label { display:block; margin-top: 0.8rem; font-weight:bold; }
+    .modal-content input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .close {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #555;
+    }
+    .submit-btn {
+      margin-top: 1rem;
+      background: #4a90e2;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .submit-btn:hover { background: #357ab8; }
+  </style>
+</head>
+<body>
+  <header>
+    ERP Management System
+    <div class="admission-query" onclick="openModal('admissionModal')">Admissions</div>
+  </header>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <input id="username" type="text" placeholder="Username" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Admission Modal -->
+  <div id="admissionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('admissionModal')">&times;</span>
+      <h2>Admission Form</h2>
+      <label>Name</label><input type="text" />
+      <label>Phone Number</label><input type="text" />
+      <label>Email</label><input type="email" />
+      <label>Intermediate Marks (%)</label><input type="number" />
+      <label>Schooling Marks (%)</label><input type="number" />
+      <label>EAMCET Rank</label><input type="number" />
+      <label>JEE Mains Rank</label><input type="number" />
+      <button class="submit-btn">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      // Example credentials
+      if (user === "student" && pass === "stud123") {
+        window.location.href = "student.html";
+      } 
+      else if (user === "admin" && pass === "admin123") {
+        window.location.href = "admin.html";
+      } 
+      else if (user==="superadmin" && pass==="superadmin123")
+      {
+        window.location.href="superadmin.html";
+      }
+      else {
+        alert("Invalid credentials! Try again.");
+      }
+    }
+
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('admissionModal');
+      if(event.target === modal) modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

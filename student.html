@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f2f5; }
+  header { background:#4a90e2; color:white; padding:1rem; text-align:center; font-size:1.5rem; font-weight:bold; }
+  .container { padding:20px; max-width:1200px; margin:auto; }
+  .menu-card { display:inline-block; width:220px; margin:10px; padding:20px; background:white; border-radius:12px; text-align:center; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s; }
+  .menu-card:hover { transform: translateY(-5px); }
+  .section { display:none; background:white; padding:20px; margin-top:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+  h3 { margin-top:0; color:#4a90e2; }
+  table { width:100%; border-collapse:collapse; margin-top:15px; }
+  table, th, td { border:1px solid #ccc; }
+  th, td { padding:8px; text-align:center; }
+  tfoot { font-weight:bold; }
+  input, select, button { padding:6px; margin:5px 0; border-radius:6px; border:1px solid #ccc; }
+  button { background:#4a90e2; color:white; cursor:pointer; border:none; }
+  button:hover { background:#357ab8; }
+</style>
+</head>
+<body>
+
+<header>Student Dashboard</header>
+
+<div class="container">
+  <!-- Menu Cards -->
+  <div class="menu-card" onclick="showSection('attendanceSection')">Attendance</div>
+  <div class="menu-card" onclick="showSection('examSection')">Examination Record</div>
+  <div class="menu-card" onclick="showSection('feeSection')">Fee Payment</div>
+  <div class="menu-card" onclick="showSection('hostelSection')">Hostel Allocation</div>
+
+  <!-- Attendance Section -->
+  <div id="attendanceSection" class="section">
+    <h3>Attendance Details</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Attended</th>
+          <th>Total Classes</th>
+          <th>Percentage</th>
+        </tr>
+      </thead>
+      <tbody id="attendanceTableBody">
+        <!-- dummy data -->
+        <tr><td>Maths</td><td>25</td><td>30</td><td>83.33%</td></tr>
+        <tr><td>Physics</td><td>27</td><td>30</td><td>90%</td></tr>
+        <tr><td>Chemistry</td><td>28</td><td>30</td><td>93.33%</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="3">Aggregate Attendance</td><td>88.89%</td></tr>
+      </tfoot>
+    </table>
+    <button onclick="alert('Analyse feature coming soon!')">Analyse Attendance</button>
+
+    <h4>Day-wise & Period-wise last 15 days</h4>
+    <table>
+      <thead><tr><th>Date</th><th>Period 1</th><th>Period 2</th><th>Period 3</th></tr></thead>
+      <tbody>
+        <tr><td>23-Sep</td><td>P</td><td>A</td><td>P</td></tr>
+        <tr><td>22-Sep</td><td>P</td><td>P</td><td>P</td></tr>
+        <tr><td>21-Sep</td><td>A</td><td>P</td><td>P</td></tr>
+        <!-- ... more dummy rows ... -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Examination Record Section -->
+  <div id="examSection" class="section">
+    <h3>Examination Record</h3>
+    <!-- Semester 1 -->
+    <h4>Semester 1</h4>
+    <h4>Semester 1</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Internal Evaluation</th>
+      <th>End Sem</th>
+      <th>CGPA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Maths</td><td>60</td><td>35</td><td>9.0</td></tr>
+    <tr><td>Physics</td><td>68</td><td>30</td><td>8.8</td></tr>
+  </tbody>
+  <tfoot>
+    <tr><td colspan="3">Semester 1 Total CGPA</td><td>8.9</td></tr>
+  </tfoot>
+</table>
+
+<h4>Semester 2</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Internal Evaluation</th>
+      <th>End Sem</th>
+      <th>CGPA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Maths II</td><td>64</td><td>36</td><td>9.2</td></tr>
+    <tr><td>Physics II</td><td>65</td><td>34</td><td>9.0</td></tr>
+  </tbody>
+  <tfoot>
+    <tr><td colspan="3">Semester 2 Total CGPA</td><td>9.1</td></tr>
+  </tfoot>
+</table>
+  </div>
+
+  <!-- Fee Payment Section -->
+  <div id="feeSection" class="section">
+    <h3>Fee Payment</h3>
+    <h4>1. Examination Fee</h4>
+    <button onclick="alert('Pay Exam Fee')">Pay Exam Fee</button>
+    <button onclick="alert('Revaluation Fee Payment')">Revaluation Fee</button>
+    <button onclick="alert('Supply Fee Payment')">Supply Fee</button>
+    <button onclick="alert('Check Exam Fee Status')">Check Status</button>
+
+    <h4>2. Bus Fee</h4>
+    <button onclick="alert('Pay Bus Fee')">Pay Bus Fee</button>
+    <button onclick="alert('Check Bus Fee Status')">Check Status</button>
+
+    <h4>3. College Fee</h4>
+    <button onclick="alert('Pay College Fee')">Pay College Fee</button>
+    <button onclick="alert('Check Scholarship/Payment Status')">Check Status</button>
+
+    <h4>4. Miscellaneous</h4>
+    <button onclick="alert('Pay Miscellaneous Fee')">Pay Misc Fee</button>
+    <button onclick="alert('Check Status')">Check Status</button>
+  </div>
+
+  <!-- Hostel Allocation Section -->
+  <div id="hostelSection" class="section">
+    <h3>Hostel Allocation</h3>
+    <label>Apply for Room:</label>
+    <input type="text" placeholder="Block (A/B/C)">
+    <input type="text" placeholder="Room No">
+    <button onclick="alert('Room applied! Redirecting to payment...')">Submit</button>
+    <button onclick="alert('Check room allocation status')">Check Status</button>
+  </div>
+</div>
+
+<script>
+  function showSection(id) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(s => s.style.display='none');
+    document.getElementById(id).style.display='block';
+  }
+</script>
+
+</body>
+</html>

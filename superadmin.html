@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
+    header { text-align: center; padding: 1rem; background: #4a90e2; color: white; font-size: 1.8rem; font-weight: bold; letter-spacing: 1px; }
+    .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 2rem; }
+    .card { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 1.5rem; text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .card h3 { margin-bottom: 0.5rem; color: #4a90e2; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; }
+    th { background: #4a90e2; color: white; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 2rem; border-radius: 12px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; }
+    .close { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #555; }
+    .approve-btn, .view-btn, .check-btn { padding: 0.4rem 0.8rem; border: none; border-radius: 5px; cursor: pointer; }
+    .approve-btn { background: #28a745; color: white; }
+    .approve-btn:hover { background: #218838; }
+    .view-btn { background: #007bff; color: white; }
+    .view-btn:hover { background: #0069d9; }
+    .check-btn { background: #ffc107; color: black; }
+    .check-btn:hover { background: #e0a800; }
+  </style>
+</head>
+<body>
+  <header>Super Admin Dashboard</header>
+
+  <div class="container">
+    <div class="card" onclick="openModal('admissionRequestsModal')">
+      <h3>Admission Requests</h3>
+      <p>Check newly applied admissions and approve/reject</p>
+    </div>
+
+    <div class="card" onclick="openModal('admittedStudentsModal')">
+      <h3>Admitted Students</h3>
+      <p>View admitted students and their details</p>
+    </div>
+
+    <div class="card" onclick="openModal('feesScholarshipModal')">
+      <h3>Fees & Scholarship</h3>
+      <p>Check fee payments and scholarship status</p>
+    </div>
+  </div>
+
+  <!-- Admission Requests Modal -->
+  <div id="admissionRequestsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('admissionRequestsModal')">&times;</span>
+      <h2>Admission Requests</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Phone</th><th>Email</th><th>Rank / Score</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>John Doe</td><td>9876543210</td><td>john@example.com</td><td>85</td><td><button class="approve-btn" onclick="alert('Admission Approved!')">Approve</button></td></tr>
+          <tr><td>Jane Smith</td><td>9876501234</td><td>jane@example.com</td><td>90</td><td><button class="approve-btn" onclick="alert('Admission Approved!')">Approve</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Admitted Students Modal -->
+  <div id="admittedStudentsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('admittedStudentsModal')">&times;</span>
+      <h2>Admitted Students</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Phone</th><th>Email</th><th>Roll No</th><th>View Details</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>John Doe</td><td>9876543210</td><td>john@example.com</td><td>101</td><td><button class="view-btn" onclick="alert('Displaying full student info')">View</button></td></tr>
+          <tr><td>Jane Smith</td><td>9876501234</td><td>jane@example.com</td><td>102</td><td><button class="view-btn" onclick="alert('Displaying full student info')">View</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Fees & Scholarship Modal -->
+  <div id="feesScholarshipModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('feesScholarshipModal')">&times;</span>
+      <h2>Fees & Scholarship Status</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Roll No</th>
+            <th>Hostel Fees</th>
+            <th>collage Fees</th>
+            <th>Exam Fees</th>
+            <th>Transport Fees</th>
+            <th>Misc Fees</th>
+            <th>Scholarship Eligible</th>
+            <th>Scholarship Applied</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>101</td>
+            <td>Paid</td>
+            <td>Paid</td>
+            <td>Not Paid</td>
+            <td>Paid</td>
+            <td>Not Paid</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td><button class="check-btn" onclick="alert('Status Checked!')">Check</button></td>
+          </tr>
+          <tr>
+            <td>102</td>
+            <td>Paid</td>
+            <td>Paid</td>
+            <td>Paid</td>
+            <td>Not Paid</td>
+            <td>Paid</td>
+            <td>No</td>
+            <td>No</td>
+            <td><button class="check-btn" onclick="alert('Status Checked!')">Check</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(m => { if(event.target == m){ m.style.display = 'none'; }});
+    }
+  </script>
+</body>
+</html>

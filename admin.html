@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #4a90e2;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .container {
+    padding: 20px;
+  }
+  .option-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .option-card:hover { transform: translateY(-5px); }
+  .form-section { display: none; background:white; padding:20px; border-radius:12px; margin-top:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+  label { display:block; margin-top:10px; font-weight:bold; }
+  input, select { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc; }
+  button { margin-top:15px; padding:10px 15px; border:none; border-radius:6px; background:#4a90e2; color:white; cursor:pointer; }
+  button:hover { background:#357ab8; }
+  table { width:100%; border-collapse: collapse; margin-top:15px; }
+  table, th, td { border:1px solid #ccc; }
+  th, td { padding:8px; text-align:center; }
+  tfoot { font-weight:bold; }
+</style>
+</head>
+<body>
+
+<header>Admin Dashboard</header>
+
+<div class="container">
+  <!-- Main options -->
+  <div class="option-card" onclick="showForm('examForm')">Examination Records</div>
+  <div class="option-card" onclick="showForm('attendanceForm')">Attendance</div>
+
+  <!-- Examination Record Form -->
+  <div id="examForm" class="form-section">
+    <h3>Examination Record</h3>
+    <label>Student Roll No:</label>
+    <input type="text" id="examRoll" placeholder="Enter roll number">
+    <label>Subject:</label>
+    <input type="text" id="examSubject" placeholder="Enter subject">
+
+    <label>Mid Terms:</label>
+    <input type="number" id="midTerm" placeholder="Enter marks">
+    <label>Slip Test:</label>
+    <input type="number" id="slipTest" placeholder="Enter marks">
+    <label>Assignment:</label>
+    <input type="number" id="assignment" placeholder="Enter marks">
+    <label>End Sem:</label>
+    <input type="number" id="endSem" placeholder="Enter marks">
+
+    <button onclick="calculateCGPA()">Calculate CGPA</button>
+
+    <p id="cgpaResult" style="margin-top:15px; font-weight:bold;"></p>
+  </div>
+
+  <!-- Attendance Form -->
+  <div id="attendanceForm" class="form-section">
+    <h3>Attendance Entry</h3>
+    <label>Year:</label>
+    <select id="yearSelect">
+      <option>1st Year</option>
+      <option>2nd Year</option>
+      <option>3rd Year</option>
+      <option>4th Year</option>
+    </select>
+    <label>Semester:</label>
+    <select id="semesterSelect">
+      <option>1</option><option>2</option><option>3</option><option>4</option>
+      <option>5</option><option>6</option><option>7</option><option>8</option>
+    </select>
+    <label>Section:</label>
+    <input type="text" id="sectionInput" placeholder="Enter section">
+    <label>Subject:</label>
+    <input type="text" id="subjectInput" placeholder="Enter subject">
+
+    <button onclick="generateAttendanceTable()">Generate Table</button>
+
+    <div id="attendanceTableDiv" style="margin-top:15px;"></div>
+  </div>
+</div>
+
+<script>
+  function showForm(formId) {
+    document.getElementById('examForm').style.display = 'none';
+    document.getElementById('attendanceForm').style.display = 'none';
+    document.getElementById(formId).style.display = 'block';
+  }
+
+  function calculateCGPA() {
+    const mid = parseFloat(document.getElementById('midTerm').value) || 0;
+    const slip = parseFloat(document.getElementById('slipTest').value) || 0;
+    const assign = parseFloat(document.getElementById('assignment').value) || 0;
+    const end = parseFloat(document.getElementById('endSem').value) || 0;
+
+    // simple average calculation
+    const total = mid + slip + assign + end;
+    const cgpa = (total / 400 * 10).toFixed(2); // assuming each out of 100
+
+    document.getElementById('cgpaResult').innerText = `Total Marks: ${total} | CGPA: ${cgpa}`;
+  }
+
+  function generateAttendanceTable() {
+    const year = document.getElementById('yearSelect').value;
+    const sem = document.getElementById('semesterSelect').value;
+    const section = document.getElementById('sectionInput').value;
+    const subject = document.getElementById('subjectInput').value;
+
+    // sample students
+    const students = [
+      {roll:'S101', name:'John Doe'},
+      {roll:'S102', name:'Jane Smith'},
+      {roll:'S103', name:'Alice Johnson'},
+      {roll:'S104', name:'Bob Brown'}
+    ];
+
+    let tableHTML = `<h4>Attendance Table: ${subject} | ${year}, Sem ${sem}, Section ${section}</h4>`;
+    tableHTML += `<table>
+      <thead>
+        <tr>
+          <th>Roll No</th>
+          <th>Name</th>
+          <th>Attendance (%)</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+    students.forEach(s => {
+      tableHTML += `<tr>
+        <td>${s.roll}</td>
+        <td>${s.name}</td>
+        <td><input type="number" value="0" min="0" max="100"></td>
+      </tr>`;
+    });
+
+    tableHTML += `</tbody></table>`;
+    tableHTML += `<button onclick="saveAttendance()">Save Attendance</button>`;
+
+    document.getElementById('attendanceTableDiv').innerHTML = tableHTML;
+  }
+
+  function saveAttendance() {
+    alert('Attendance updated successfully!');
+  }
+</script>
+
+</body>
+</html>
