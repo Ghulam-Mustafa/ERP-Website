@@ -34,7 +34,7 @@
   .option-card:hover { transform: translateY(-5px); }
   .form-section { display: none; background:white; padding:20px; border-radius:12px; margin-top:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
   label { display:block; margin-top:10px; font-weight:bold; }
-  input, select { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc; }
+  input, select, textarea { width:100%; padding:8px; margin-top:5px; border-radius:6px; border:1px solid #ccc; }
   button { margin-top:15px; padding:10px 15px; border:none; border-radius:6px; background:#4a90e2; color:white; cursor:pointer; }
   button:hover { background:#357ab8; }
   table { width:100%; border-collapse: collapse; margin-top:15px; }
@@ -51,6 +51,7 @@
   <!-- Main options -->
   <div class="option-card" onclick="showForm('examForm')">Examination Records</div>
   <div class="option-card" onclick="showForm('attendanceForm')">Attendance</div>
+  <div class="option-card" onclick="showForm('queryForm')">Attendance Queries</div>
 
   <!-- Examination Record Form -->
   <div id="examForm" class="form-section">
@@ -98,12 +99,35 @@
 
     <div id="attendanceTableDiv" style="margin-top:15px;"></div>
   </div>
+
+  <!-- Attendance Queries Resolver -->
+  <div id="queryForm" class="form-section">
+        <h3>Resolve Attendance Queries</h3>
+        <table id="adminQueriesTable">
+             <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Section</th>
+                    <th>Date</th>
+                    <th>Period</th>
+                    <th>Subject</th>
+                    <th>Query</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Admin will populate/resolve queries here -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
   function showForm(formId) {
     document.getElementById('examForm').style.display = 'none';
     document.getElementById('attendanceForm').style.display = 'none';
+    document.getElementById('queryForm').style.display = 'none';
     document.getElementById(formId).style.display = 'block';
   }
 
@@ -112,11 +136,8 @@
     const slip = parseFloat(document.getElementById('slipTest').value) || 0;
     const assign = parseFloat(document.getElementById('assignment').value) || 0;
     const end = parseFloat(document.getElementById('endSem').value) || 0;
-
-    // simple average calculation
     const total = mid + slip + assign + end;
-    const cgpa = (total / 400 * 10).toFixed(2); // assuming each out of 100
-
+    const cgpa = (total / 400 * 10).toFixed(2); // simple CGPA
     document.getElementById('cgpaResult').innerText = `Total Marks: ${total} | CGPA: ${cgpa}`;
   }
 
@@ -126,7 +147,6 @@
     const section = document.getElementById('sectionInput').value;
     const subject = document.getElementById('subjectInput').value;
 
-    // sample students
     const students = [
       {roll:'S101', name:'John Doe'},
       {roll:'S102', name:'Jane Smith'},
@@ -155,13 +175,46 @@
 
     tableHTML += `</tbody></table>`;
     tableHTML += `<button onclick="saveAttendance()">Save Attendance</button>`;
-
     document.getElementById('attendanceTableDiv').innerHTML = tableHTML;
   }
 
   function saveAttendance() {
     alert('Attendance updated successfully!');
   }
+
+  // --- Query Resolver Logic ---
+  // Example preloaded queries; in real use, this could come from database or student submission
+  const queries = [
+    {roll:'S101', section:'A', date:'2025-09-23', period:'1', subject:'Maths', query:'I was marked absent but I attended.', status:'Pending'},
+    {roll:'S102', section:'B', date:'2025-09-22', period:'2', subject:'Physics', query:'Attendance not updated for last week.', status:'Pending'}
+  ];
+
+  function loadQueries() {
+    const tbody = document.getElementById('adminQueriesTable').querySelector('tbody');
+    tbody.innerHTML = '';
+    queries.forEach((q, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${q.roll}</td>
+        <td>${q.section}</td>
+        <td>${q.date}</td>
+        <td>${q.period}</td>
+        <td>${q.subject}</td>
+        <td>${q.query}</td>
+        <td id="status-${index}">${q.status}</td>
+        <td><button onclick="resolveQuery(${index})">Resolve</button></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function resolveQuery(index) {
+    queries[index].status = 'Resolved';
+    document.getElementById(`status-${index}`).innerText = 'Resolved';
+    alert(`Query #${index+1} marked as Resolved`);
+  }
+
+  document.querySelector('.option-card[onclick*="queryForm"]').addEventListener('click', loadQueries);
 </script>
 
 </body>

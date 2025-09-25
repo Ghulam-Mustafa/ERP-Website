@@ -16,9 +16,10 @@
   table, th, td { border:1px solid #ccc; }
   th, td { padding:8px; text-align:center; }
   tfoot { font-weight:bold; }
-  input, select, button { padding:6px; margin:5px 0; border-radius:6px; border:1px solid #ccc; }
+  input, select, button, textarea { padding:6px; margin:5px 0; border-radius:6px; border:1px solid #ccc; }
   button { background:#4a90e2; color:white; cursor:pointer; border:none; }
   button:hover { background:#357ab8; }
+  textarea { resize: vertical; }
 </style>
 </head>
 <body>
@@ -63,7 +64,45 @@
         <tr><td>23-Sep</td><td>P</td><td>A</td><td>P</td></tr>
         <tr><td>22-Sep</td><td>P</td><td>P</td><td>P</td></tr>
         <tr><td>21-Sep</td><td>A</td><td>P</td><td>P</td></tr>
-        <!-- ... more dummy rows ... -->
+      </tbody>
+    </table>
+
+    <!-- Raise Attendance Query Form -->
+    <h3>Raise Attendance Query</h3>
+    <form id="attendanceQueryForm" onsubmit="submitQuery(event)">
+      <label>Date:</label>
+      <input type="date" id="queryDate" required><br>
+      <label>Period:</label>
+      <select id="queryPeriod" required>
+        <option value="">Select Period</option>
+        <option value="1">Period 1</option>
+        <option value="2">Period 2</option>
+        <option value="3">Period 3</option>
+        <option value="4">Period 4</option>
+        <option value="5">Period 5</option>
+        <option value="6">Period 6</option>
+      </select><br>
+      <label>Subject:</label>
+      <input type="text" id="querySubject" placeholder="Enter Subject" required><br>
+      <label>Your Query:</label>
+      <textarea id="queryText" placeholder="Explain your query..." rows="4" style="width:100%;" required></textarea><br>
+      <button type="submit">Submit Query</button>
+    </form>
+
+    <!-- Queries Table -->
+    <h3>Your Queries</h3>
+    <table id="queriesTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Period</th>
+          <th>Subject</th>
+          <th>Query</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Submitted queries will appear here -->
       </tbody>
     </table>
   </div>
@@ -73,43 +112,42 @@
     <h3>Examination Record</h3>
     <!-- Semester 1 -->
     <h4>Semester 1</h4>
-    <h4>Semester 1</h4>
-<table>
-  <thead>
-    <tr>
-      <th>Subject</th>
-      <th>Internal Evaluation</th>
-      <th>End Sem</th>
-      <th>CGPA</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Maths</td><td>60</td><td>35</td><td>9.0</td></tr>
-    <tr><td>Physics</td><td>68</td><td>30</td><td>8.8</td></tr>
-  </tbody>
-  <tfoot>
-    <tr><td colspan="3">Semester 1 Total CGPA</td><td>8.9</td></tr>
-  </tfoot>
-</table>
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Internal Evaluation</th>
+          <th>End Sem</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Maths</td><td>60</td><td>35</td><td>9.0</td></tr>
+        <tr><td>Physics</td><td>68</td><td>30</td><td>8.8</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="3">Semester 1 Total CGPA</td><td>8.9</td></tr>
+      </tfoot>
+    </table>
 
-<h4>Semester 2</h4>
-<table>
-  <thead>
-    <tr>
-      <th>Subject</th>
-      <th>Internal Evaluation</th>
-      <th>End Sem</th>
-      <th>CGPA</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Maths II</td><td>64</td><td>36</td><td>9.2</td></tr>
-    <tr><td>Physics II</td><td>65</td><td>34</td><td>9.0</td></tr>
-  </tbody>
-  <tfoot>
-    <tr><td colspan="3">Semester 2 Total CGPA</td><td>9.1</td></tr>
-  </tfoot>
-</table>
+    <h4>Semester 2</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Internal Evaluation</th>
+          <th>End Sem</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Maths II</td><td>64</td><td>36</td><td>9.2</td></tr>
+        <tr><td>Physics II</td><td>65</td><td>34</td><td>9.0</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="3">Semester 2 Total CGPA</td><td>9.1</td></tr>
+      </tfoot>
+    </table>
   </div>
 
   <!-- Fee Payment Section -->
@@ -150,6 +188,28 @@
     const sections = document.querySelectorAll('.section');
     sections.forEach(s => s.style.display='none');
     document.getElementById(id).style.display='block';
+  }
+
+  function submitQuery(event) {
+    event.preventDefault();
+    const date = document.getElementById('queryDate').value;
+    const period = document.getElementById('queryPeriod').value;
+    const subject = document.getElementById('querySubject').value;
+    const query = document.getElementById('queryText').value;
+
+    const tableBody = document.getElementById('queriesTable').querySelector('tbody');
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${date}</td>
+      <td>${period}</td>
+      <td>${subject}</td>
+      <td>${query}</td>
+      <td>Pending</td>
+    `;
+    tableBody.appendChild(newRow);
+
+    document.getElementById('attendanceQueryForm').reset();
+    alert('Query submitted! Faculty/Admin will review it.');
   }
 </script>
 
