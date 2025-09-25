@@ -137,7 +137,7 @@
     const assign = parseFloat(document.getElementById('assignment').value) || 0;
     const end = parseFloat(document.getElementById('endSem').value) || 0;
     const total = mid + slip + assign + end;
-    const cgpa = (total / 400 * 10).toFixed(2); // simple CGPA
+    const cgpa = (total / 100 * 10).toFixed(2); // simple CGPA
     document.getElementById('cgpaResult').innerText = `Total Marks: ${total} | CGPA: ${cgpa}`;
   }
 
